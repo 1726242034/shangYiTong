@@ -1,6 +1,8 @@
 package com.xu.mybatis_plus;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xu.mybatis_plus.dao.User;
 import com.xu.mybatis_plus.dao.UserPage;
@@ -9,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -22,10 +25,9 @@ class MybatisPlusApplicationTests {
 //		=================================================================添加数据
 		User user = new User(){{
 			setName("Lian");
-//			setAge(20);
 			setEmail("1726242034@qq.com");
 		}};
-//		userMapper.insert(user);
+		userMapper.insert(user);
 
 
 //		=================================================================全部查询
@@ -35,14 +37,17 @@ class MybatisPlusApplicationTests {
 //		=================================================================分页查询
 		Page<User> userPage = userMapper.selectPage(
 				new Page<>(1, 3),
-				new QueryWrapper<>(user).eq("id", 1));
+				new QueryWrapper<>(new User()).eq("id", 1));
 
-//		userPage.hasPrevious();	// 上一页
-//		userPage.hasNext();		// 下一页
-//		userPage.getCurrent();	// 当前页
-//		userPage.getPages();	// 总页数
-//		userPage.getTotal();	// 总记录
+		userPage.hasPrevious();	// 上一页
+		userPage.hasNext();		// 下一页
+		userPage.getCurrent();	// 当前页
+		userPage.getPages();	// 总页数
+		userPage.getTotal();	// 总记录
 //		System.out.println(userPage.getCurrent());
+
+//		=================================================================逻辑删除
+//		userMapper.delete(new UpdateWrapper<>(new User()).eq("id",2));
 
 
 	}

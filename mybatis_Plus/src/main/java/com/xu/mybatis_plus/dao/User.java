@@ -1,9 +1,6 @@
 package com.xu.mybatis_plus.dao;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
 
 public class User {
 
@@ -19,15 +16,9 @@ public class User {
 
 	private String email;
 
-	public User() {
-	}
+	@TableLogic
+	private Integer deleted;
 
-	public User(Long id, String name, Integer age, String email) {
-		this.id = id;
-		this.name = name;
-		this.age = age;
-		this.email = email;
-	}
 
 	@Override
 	public String toString() {
@@ -36,7 +27,19 @@ public class User {
 				", name='" + name + '\'' +
 				", age=" + age +
 				", email='" + email + '\'' +
+				", deleted=" + deleted +
 				'}';
+	}
+
+	public User() {
+	}
+
+	public User(Long id, String name, Integer age, String email, Integer deleted) {
+		this.id = id;
+		this.name = name;
+		this.age = age;
+		this.email = email;
+		this.deleted = deleted;
 	}
 
 	public Long getId() {
@@ -69,5 +72,13 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Integer getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Integer deleted) {
+		this.deleted = deleted;
 	}
 }

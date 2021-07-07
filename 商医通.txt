@@ -39,7 +39,20 @@ MybatisPlus的主键策略
                 public void updateFill(MetaObject metaObject) { this.setFieldValByName("age",20,metaObject); }
             }
 
+    MybatisPlus分页
+        配置类
+            @Bean
+            public PaginationInterceptor paginationInterceptor() { return new PaginationInterceptor(); }
 
+
+    逻辑删除
+        dao字段
+            @TableLogic
+            private Integer deleted;
+
+        application.yml
+            mybatis-plus.global-config.db-config.logic-delete-value=1
+            mybatis-plus.global-config.db-config.logic-not-delete-value=0
 
 
 
