@@ -55,6 +55,114 @@ MybatisPlus的主键策略
             mybatis-plus.global-config.db-config.logic-not-delete-value=0
 
 
+==========================================================================================================================================================================
+
+前端
+    目录结构
+        config --- dev.env.js ： 后端程序的连接口
+        src
+            main.js ： 程序的入口 在" build --- webpack.base.conf.js "中标识了
+            router ： 路由配置
+            views ： AJAX调用接口
+
+
+    前端模块中 'package.json' 文件指定的是前端项目需要的依赖, 可以使用node.js的' npm install '命令来下载
+    安装完毕的依赖都会在'node_modules'文件夹中, 使用' npm run dev '运行前端项目
+
+
+==========================================================================================================================================================================
+
+一些注解的意思
+    类注解
+        @ComponentScan(basePackages = {"com.xu.cmn"})
+            SpringBoot默认扫描启动类同级以及子目录，如果某些目录在其他地方，就需要使用此注解来标识
+        @CrossOrigin
+            允许当前类/方法跨域
+
+    方法注解
+        @PathVariable
+            获取URL路径中的参数
+        @RequestBody(required = false)
+            接收Json类型的参数 数据可以为null
+        @ResponseBody
+            把返回值转换为Json类型的数据
+
+
+全局的异常处理
+    // 当出现异常后 就会自动跳转到@ExceptionHandler的方法下
+    @ControllerAdvice
+    public class GlobalExceptionHandler {
+        @ExceptionHandler({RuntimeException.class})     // 异常的类型
+        @ResponseBody
+        public Result yyghException(YyghException yyghException){
+            yyghException.printStackTrace();
+            return Result.fail();
+        }
+    }
+
+    // catch抛出的异常要是try中出现的异常
+    try { int i = 10 / 0; }
+    catch (java.lang.ArithmeticException e){ throw new YyghException("失败了", 200); }
+
+
+日志
+    日志记录器( Logger )的行为是分等级的。分为:OFF、FATAL、ERROR、WARN、INFO、DEBUG、ALL.
+    默认情况下，spring boot从控制台打印出来的日志级别只有INFO及以上级别，可以配置日志级别
+        application配置文件中添加:  logging.level.root=WARN
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+出现的异常报错
+    javax.management.InstanceNotFoundException: org.springframework.boot:type=Admin,name=SpringApplication
+        其中JMX 是spring内置的日志，在模块管理中把" Enable JVM agent "的勾关闭掉
+        此问题一般因为SpringBoot版本高导致的，降低版本一样可以解决
+
+
+    正确的数据库连接
+        spring.datasource.driver-class-name=com.mysql.jdbc.Driver       # mysql8.0之前
+        spring.datasource.url=jdbc:mysql://192.168.32.9:3306/yygh_hosp?characterEncoding=utf-8&serverTimezone=UTC
+
+    Error response from daemon: driver failed programming external connectivity on endpoint nacos
+        docker 来自守护线程的报错。原因为自定义的链由于某些原因被清理掉了 重启docker服务即可(systemctl restart docker)
+
+    前端请求出现CORS错误
+        这是跨域错误 检查项目有没有注册到nacos中、网关是否配置好、使用了nginx要检查nginx配置文件有没有错误
+        再检查后端有没有配置跨域类，可以在类上使用"@CrossOrigin"注解 让当前类支持跨域
+
+    前端出现503错误
+        如果使用了cloud 检查服务是否在注册中心内，然后检查网关的配置文件是否出错
+
 
 
 
